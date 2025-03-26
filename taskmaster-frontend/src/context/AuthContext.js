@@ -1,7 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-
-// Criar contexto
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -13,7 +11,7 @@ const AuthProvider = ({ children }) => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios
-        .get("/api/auth/me") // Endpoint para obter as informações do usuário logado
+        .get("/api/auth/me") 
         .then((response) => setUser(response.data))
         .catch(() => setUser(null));
     }
