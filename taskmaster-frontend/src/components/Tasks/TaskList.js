@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getTasks } from "../services/api";
+import TaskItem from "./TaskItem";
 
-const TaskList = ({ tasks }) => {
+const TaskList = () => {
+  const [tasks, setTasks] = useState([]);
+
+  const loadTasks = async () => {
+    const tasksData = await getTasks();
+    setTasks(tasksData);
+  };
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
   return (
     <div>
-      <h3>Suas Tarefas</h3>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task._id}>
-            <h4>{task.title}</h4>
-            <p>{task.description}</p>
-            <p>Status: {task.status}</p>
-            <p>Prioridade: {task.priority}</p>
-          </li>
-        ))}
-      </ul>
+      <h2>Lista de Tarefas</h2>
+      {tasks.map((task) => (
+        <TaskItem key={task._id} task={task} onTaskUpdated={loadTasks} />
+      ))}
     </div>
   );
 };
